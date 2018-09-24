@@ -68,9 +68,3 @@ if __name__ == '__main__':
 	np.save('Data/diffs.npy', diffs)
 	print(time.time() - start)
 
-
-
-
-
-
-
