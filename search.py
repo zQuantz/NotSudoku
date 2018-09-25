@@ -14,6 +14,13 @@ move_dict = {'[-1, -1]' : 'UP-LEFT',
 			 '[0, -1]' : 'LEFT', 
 			 'START' : 'START'}
 
+tile_dict = {0 : 'a', 1 : 'b', 
+			 2 : 'c', 3 : 'd', 
+			 4 : 'e', 5 : 'f', 
+			 6 : 'g', 7 : 'h', 
+			 8 : 'i', 9 : 'j', 
+			 10 : 'k', 11 : 'l'}
+
 ###
 
 def get_final_path(ending_node):
@@ -31,7 +38,7 @@ def get_final_path(ending_node):
 		print(node.from_move)
 		print(node.state.reshape(3, 4))
 	print('\nGOAL STATE FOUND! CONGRATULATIONS\n')
-	return len(nodes)
+	return len(nodes), nodes
 
 def build_children(node, closed_list, func, heuristic_time):
 		
@@ -73,6 +80,18 @@ def get_legal_moves(board_state, closed_list):
 		
 	return legal_moves
 
+def save_solution(outfile, nodes):
+
+	with open(outfile, 'w') as file:
+
+		file.write('%d %s\n' % (0, nodes[0].state))
+
+		for node in nodes[1:]:
+
+			idx = np.argwhere(node.state == 0)[0][0]
+
+			file.write('%s %s\n' % (tile_dict[idx], node.state))
+
 class Node():
 
 	def __init__(self, state, cost, depth, from_node, from_move):
@@ -88,12 +107,13 @@ class Node():
 
 class BFS():
 
-	def __init__(self, initial_state, max_depth, func):
+	def __init__(self, initial_state, func, max_depth=None, outfile=None):
 		self.open_list = []
-		self.func = func
 		self.closed_list = pd.DataFrame({'State' : [str([0]*12)]})
 		self.head_node = Node(initial_state, 0, 0, None, 'START')
 		self.max_depth = max_depth
+		self.func = func
+		self.outfile = outfile
 		#Stats
 		self.searches = 0
 		self.overall_time = 0
@@ -111,8 +131,10 @@ class BFS():
 
 			if(current_position.is_goal_state()):
 				print('Number of Searches:',self.searches)
-				self.solution_path_length = get_final_path(current_position)
+				self.solution_path_length, nodes = get_final_path(current_position)
 				self.overall_time -= (self.overall_time-time.time())
+				if(self.outfile != None):
+					save_solution(self.outfile, nodes)
 				break
 
 			print(' - - - - - -  - - ')
@@ -121,15 +143,16 @@ class BFS():
 			print('Cost:', current_position.cost)
 			print('HTime:', len(self.heuristic_time))
 			self.costs.append(current_position.cost)
-			self.depths.append(current_position.depth)	
+			self.depths.append(current_position.depth)
 
-			if(current_position.depth < self.max_depth):
+			if(current_position.depth < (-1 if self.max_depth == None else self.max_depth)):
 				children = build_children(current_position, self.closed_list, 
 										  self.func, self.heuristic_time)
 				self.open_list = children + self.open_list
 
 			self.closed_list = self.closed_list.append({'State' : str(list(current_position.state))}, 
 													   ignore_index=True)
+
 			try:
 				current_position = self.open_list[0]
 				del self.open_list[0]
@@ -140,13 +163,19 @@ class BFS():
 
 			self.searches += 1
 
+			if(self.searches == 15000):
+				print('NO SOLUTIONS FOUND - MAX SEARCHES REACHED')
+				self.overall_time = -2
+				break
+
 class BestFirst():
 
-	def __init__(self, initial_state, func):
+	def __init__(self, initial_state, func, outfile):
 		self.open_list = []
 		self.func = func
 		self.closed_list = pd.DataFrame({'State' : [str([0]*12)]})
 		self.head_node = Node(initial_state, func(initial_state), 0, None, 'START')
+		self.outfile = outfile
 		#Stats
 		self.searches = 0
 		self.overall_time = 0
@@ -165,8 +194,10 @@ class BestFirst():
 			if(current_position.is_goal_state()):
 				print(' - - - - - -  - - ')
 				print('\nNumber of Searches:', self.searches)
-				self.solution_path_length = get_final_path(current_position)
+				self.solution_path_length, nodes = get_final_path(current_position)
 				self.overall_time -= (self.overall_time-time.time())
+				if(self.outfile != None):
+					save_solution(self.outfile, nodes)
 				break
 
 			###
@@ -199,12 +230,18 @@ class BestFirst():
 
 			self.searches += 1
 
+			if(self.searches == 15000):
+				print('NO SOLUTIONS FOUND - MAX SEARCHES REACHED')
+				self.overall_time = -2
+				break
+
 class AStar():
 
-	def __init__(self, initial_state, func):
+	def __init__(self, initial_state, func, outfile=None):
 		self.open_list = []
 		self.func = func
 		self.head_node = Node(initial_state, func(initial_state), 0, None, 'START')
+		self.outfile = outfile
 		#Stats
 		self.searches = 0
 		self.solution_path_length = 0
@@ -260,8 +297,10 @@ class AStar():
 			if(current_position.is_goal_state()):
 				print(' - - - - - -  - - ')
 				print('\nNumber of Searches:', self.searches)
-				self.solution_path_length = get_final_path(current_position)
+				self.solution_path_length, nodes = get_final_path(current_position)
 				self.overall_time -= (self.overall_time-time.time())
+				if(self.outfile != None):
+					save_solution(self.outfile, nodes)
 				break
 
 			print(' - - - - - -  - - ')
@@ -287,6 +326,11 @@ class AStar():
 				break
 
 			self.searches += 1
+
+			if(self.searches == 15000):
+				print('NO SOLUTIONS FOUND - MAX SEARCHES REACHED')
+				self.overall_time = -2
+				break
 
 
 

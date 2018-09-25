@@ -11,8 +11,8 @@ if __name__ == '__main__':
 	states = np.load('Data/states.npy')
 	diffs = np.load('Data/diffs.npy')
 	stats = pd.DataFrame()
-	func = h.h2
-	func_str = 'h2'
+	func = h.h1
+	func_str = 'h1'
 
 	for i, state in enumerate(states[:20]):
 		print(i)
@@ -40,7 +40,7 @@ if __name__ == '__main__':
 						   'Time' : [bf.overall_time]*n, 
 						   'HTime' : [np.mean(bf.heuristic_time)]*n, 
 						   'Searches' : [bf.searches]*n, 
-						   'Difficulty' : [diffs[i % 3]]*n, 
+						   'Difficulty' : [diffs[i % 4]]*n, 
 						   'SolutionLength' : [bf.solution_path_length]*n})
 		df.to_pickle('Data/stats/%s/state_%d/bf.pkl' % (func_str, i))
 		print(df.head())
@@ -53,7 +53,7 @@ if __name__ == '__main__':
 						   'Time' : [aS.overall_time]*n, 
 						   'HTime' : [np.mean(aS.heuristic_time)]*n, 
 						   'Searches' : [aS.searches]*n, 
-						   'Difficulty' : [diffs[i % 3]]*n,
+						   'Difficulty' : [diffs[i % 4]]*n,
 						   'SolutionLength' : [aS.solution_path_length]*n})
 		df.to_pickle('Data/stats/%s/state_%d/as.pkl' % (func_str,i))
 		print(df.head())
