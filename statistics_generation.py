@@ -12,7 +12,7 @@ if __name__ == '__main__':
 	diffs = np.load('Data/diffs.npy')
 	stats = pd.DataFrame()
 	func = h.h2
-	func_str = 'h2_p'
+	func_str = 'h2'
 
 	for i, state in enumerate(states[:20]):
 		print(i)
@@ -32,8 +32,7 @@ if __name__ == '__main__':
 		'''
 		##
 		## BestFirst ##
-		print('BEST FIRSTTTTT')
-		bf = BestFirst_t()
+		bf = BestFirst()
 		bf.traversal(state, func)
 		n = len(bf.costs)
 		df = pd.DataFrame({'Costs' : bf.costs, 
@@ -44,10 +43,8 @@ if __name__ == '__main__':
 						   'Difficulty' : [diffs[i % 4]]*n, 
 						   'SolutionLength' : [bf.solution_path_length]*n})
 		df.to_pickle('Data/stats/%s/state_%d/bf.pkl' % (func_str, i))
-		print(df.head())
 		## AStar ##
-		print('A STARRRRRRR')
-		aS = AStar_t()
+		aS = AStar()
 		aS.traversal(state, func)
 		n = len(aS.costs)
 		df = pd.DataFrame({'Costs' : aS.costs, 
@@ -58,5 +55,4 @@ if __name__ == '__main__':
 						   'Difficulty' : [diffs[i % 4]]*n,
 						   'SolutionLength' : [aS.solution_path_length]*n})
 		df.to_pickle('Data/stats/%s/state_%d/as.pkl' % (func_str,i))
-		print(df.head())
 		##
