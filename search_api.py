@@ -18,13 +18,13 @@ if __name__ == '__main__':
 		print('INVALID PUZZLE - LENGTH MUST BE 12')
 		sys.exit()
 
-	bfs = BFS(np.array(puzzle), h.h1, max_depth=args.max_depth, outfile='Data/Results/puzzleDFS.txt')
-	bfs.traversal()
+	#bfs = BFS(np.array(puzzle), h.h1, max_depth=args.max_depth, outfile='Data/Results/puzzleDFS.txt')
+	#bfs.traversal()
 
-	for heur_str, func in zip(['h1', 'h2'], [h.h1, h.h2]):
+	for heur_str, func in zip(['h1', 'h2'], [h.h3, h.h2]):
 
-		bf = BestFirst(np.array(puzzle), func, outfile='Data/Results/puzzleBFS-%s.txt' % heur_str)
-		bf.traversal()
+		bf = BestFirst(outfile='Data/Results/puzzleBFS-%s.txt' % heur_str)
+		bf.traversal(np.array(puzzle), func)
 
-		aS = AStar(np.array(puzzle), func, outfile='Data/Results/puzzleAs-%s.txt' % heur_str)
-		aS.traversal()
+		aS = AStar(outfile='Data/Results/puzzleAs-%s.txt' % heur_str)
+		aS.traversal(np.array(puzzle), func)

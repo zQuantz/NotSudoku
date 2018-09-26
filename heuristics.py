@@ -39,9 +39,25 @@ def h3(board_state):
     return np.sqrt(np.sum(np.power(board_sum - goal_sum, 2)))
 
 def O2(board_state):
-    l1_cost = h2(board_state)
-    moves = get_legal_moves(board_state)
-    l2_cost = min([h2(move[0]) for move in moves])
-    return l1_cost+l2_cost
+    idc = [[-1, 0], [-1, 1], [0, 1], 
+               [1, 1], [1, 0], [1, -1], 
+               [0, -1], [-1, -1]]
+
+    board_state = board_state.reshape(3, 4)
+    empty_index = np.argwhere(board_state == 0)[0]
+    legal_moves = []
+    for idx in idc:
+        try:
+            pos = empty_index + idx
+            if(len([i for i in pos if i >= 0])==2):
+                new_state = board_state.copy()
+                new_state[empty_index[0],
+                          empty_index[1]] = new_state[pos[0], pos[1]]
+                new_state[pos[0], pos[1]] = 0
+                legal_moves.append([new_state.ravel(), idx])
+        except Exception as e:
+            pass
+    l2_cost = min([h2(move[0]) for move in legal_moves])
+    return l2_cost
 
 ###

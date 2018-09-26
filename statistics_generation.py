@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import os, sys
 sys.path.append('search.py')
-from search import BFS, BestFirst, AStar
+from search import BFS_t, BestFirst_t, AStar_t
 sys.path.append('heuristics.py')
 import heuristics as h
 
@@ -11,8 +11,8 @@ if __name__ == '__main__':
 	states = np.load('Data/states.npy')
 	diffs = np.load('Data/diffs.npy')
 	stats = pd.DataFrame()
-	func = h.h1
-	func_str = 'h1'
+	func = h.h2
+	func_str = 'h2_p'
 
 	for i, state in enumerate(states[:20]):
 		print(i)
@@ -32,8 +32,9 @@ if __name__ == '__main__':
 		'''
 		##
 		## BestFirst ##
-		bf = BestFirst(state, func)
-		bf.traversal()
+		print('BEST FIRSTTTTT')
+		bf = BestFirst_t()
+		bf.traversal(state, func)
 		n = len(bf.costs)
 		df = pd.DataFrame({'Costs' : bf.costs, 
 						   'Depths' : bf.depths, 
@@ -45,8 +46,9 @@ if __name__ == '__main__':
 		df.to_pickle('Data/stats/%s/state_%d/bf.pkl' % (func_str, i))
 		print(df.head())
 		## AStar ##
-		aS = AStar(state, func)
-		aS.traversal()
+		print('A STARRRRRRR')
+		aS = AStar_t()
+		aS.traversal(state, func)
 		n = len(aS.costs)
 		df = pd.DataFrame({'Costs' : aS.costs, 
 						   'Depths' : aS.depths, 
