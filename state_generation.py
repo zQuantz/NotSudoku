@@ -52,7 +52,7 @@ if __name__ == '__main__':
 	parser.add_argument('N', help='Number of states to generate. Must be greater than 100', type=int, default=100)
 
 	args = parser.parse_args()
-	diffs = [5, 10, 20, 30]
+	diffs = [5, 10, 15, 20, 25, 30]
 	difficulties, states = [], []
 	start = time.time()
 

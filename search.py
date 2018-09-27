@@ -78,6 +78,7 @@ class Search():
 		for move in moves:
 			start = time.time()
 			cost = func(move[0]) if func != None else 0
+			cost += node.depth if self.closed_list.shape[0] == 0 else 0
 			self.heuristic_time.append(time.time() - start)
 			children.append(Node(move[0], cost, node.depth + 1, node, move[1]))
 		return children
