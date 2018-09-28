@@ -125,7 +125,18 @@ class Search():
 
 		pass
 
-	def traversal(self, initial_state, func=None):
+	def is_end(self, current_position):
+		try:
+			current_position = self.open_list[0]
+			del self.open_list[0]
+			return False, current_position
+		except:
+			print('\nNO SOLUTIONS FOUND - OPEN LIST EMPTY\n')
+			self.overall_time = -1
+			return True, None
+
+
+	def traversal(self, initial_state, func=None, verbose=0):
 
 		self.reset_statistics()
 		current_position = Node(initial_state, 0 if func == None else func(initial_state), 
@@ -141,24 +152,22 @@ class Search():
 				if(self.outfile != None):
 					self.save_solution(nodes)
 				break
-			
-			print(' - - - - - -  - - ')
-			print('Searches:', self.searches)
-			print('Depth:', current_position.depth)
-			print('Cost:', current_position.cost)
-			print('HTime:', len(self.heuristic_time))
+<<<<<<< HEAD
+			if(verbose==0):
+				print(' - - - - - -  - - ')
+				print('Searches:', self.searches)
+				print('Depth:', current_position.depth)
+				print('Cost:', current_position.cost)
+				print('HTime:', len(self.heuristic_time))
+>>>>>>> ideep
 			
 			self.costs.append(current_position.cost)
 			self.depths.append(current_position.depth)
 
 			self.evaluate(current_position, func=func)
+			is_end, current_position = self.is_end(current_position)
 
-			try:
-				current_position = self.open_list[0]
-				del self.open_list[0]
-			except:
-				print('\nNO SOLUTIONS FOUND - OPEN LIST EMPTY\n')
-				self.overall_time = -1
+			if(is_end):
 				break
 
 			self.searches += 1
@@ -170,60 +179,35 @@ class Search():
 
 class BFS(Search):
 
-	def __init__(self, max_searches=15000, max_depth=None, outfile=None):
+	def __init__(self, max_searches=15000, max_depth=None, outfile=None, iter_deep=None):
 		Search.__init__(self, max_searches=max_searches, outfile=outfile)
 		self.max_depth = max_depth
 		self.max_depth_list = []
+		self.iter_deep = iter_deep
 
 	def evaluate(self, current_position, func):
-		if(True if self.max_depth == None else current_position.depth <= self.max_depth):
+		if(True if self.max_depth == None else current_position.depth < self.max_depth):
 			children = self.build_children(current_position, func=None)
 			self.open_list = children + self.open_list
-			if(self.max_depth != None) & (current_position.depth == self.max_depth):
-				self.max_depth_list.append(current_position)
+		if(self.iter_deep != None) & (current_position.depth == self.max_depth):
+			self.max_depth_list.append(current_position)
 
-	def traversal(self, initial_state, func=None):
-
-		self.reset_statistics()
-		current_position = Node(initial_state, 0 if func == None else func(initial_state), 
-								0, None, 'START')  
-		self.overall_time = time.time()
-
-		while(True):
-
-			if(current_position.is_goal_state()):
-				print('Number of Searches:', self.searches)
-				self.solution_path_length, nodes = self.get_final_path(current_position)
-				self.overall_time -= (self.overall_time-time.time())
-				if(self.outfile != None):
-					self.save_solution(nodes)
-				break
-			'''
-			print(' - - - - - -  - - ')
-			print('Searches:', self.searches)
-			print('Depth:', current_position.depth)
-			print('Cost:', current_position.cost)
-			print('HTime:', len(self.heuristic_time))
-			'''
-			self.costs.append(current_position.cost)
-			self.depths.append(current_position.depth)
-
-			self.evaluate(current_position, func=func)
-
-			try:
-				current_position = self.open_list[0]
-				del self.open_list[0]
-			except:
+	def is_end(self, current_position):
+		try:
+			current_position = self.open_list[0]
+			del self.open_list[0]
+			return False, current_position
+		except:
+			if(self.iter_deep == None):
 				print('\nNO SOLUTIONS FOUND - OPEN LIST EMPTY\n')
 				self.overall_time = -1
-				break
-
-			self.searches += 1
-
-			if(self.searches == self.max_searches):
-				print('NO SOLUTIONS FOUND - MAX SEARCHES REACHED')
-				self.overall_time = -2
-				break
+				return True, None
+			else:
+				print('DEEPENING - MAX DEPTH: %d - ADDING: %d' % (self.max_depth, self.iter_deep))
+				self.max_depth += self.iter_deep
+				self.open_list = self.max_depth_list
+				self.max_depth_list = []
+				return False, self.open_list[0]
 
 class AStar(Search):
 
@@ -252,4 +236,5 @@ class BestFirst(Search):
 		costs = [node.cost for node in self.open_list]
 		idc = np.argsort(costs)
 		self.open_list = np.array(self.open_list)[idc].tolist()
+
 
