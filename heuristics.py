@@ -8,7 +8,7 @@ def h1(board_state):
 def h1_mod(board_state):
     board_state = board_state.tolist()
     cost = [abs(board_state.index(i) - i + 1) for i in range(1, 12)]
-    cost = cost + [abs(11 - board_state.argmin())]
+    cost = cost + [abs(11 - board_state.index(0))]
     return sum(cost)
 
 def h2(board_state):
@@ -43,9 +43,9 @@ def h3(board_state):
 def h4(board_state):
     goal_state = np.append(np.arange(1, 12), 0).reshape(3, 4)
     board_state = board_state.reshape(3, 4)
-    goal_sum = np.append(goal_state.sum(axis=0)/3, goal_state.sum(axis=1)/4)
-    board_sum = np.append(board_state.sum(axis=0)/3, board_state.sum(axis=1)/4)
-    return np.sqrt(np.sum(np.power(board_sum - goal_sum, 2)))
+    goal_sum = np.append(goal_state.sum(axis=0), goal_state.sum(axis=1))
+    board_sum = np.append(board_state.sum(axis=0), board_state.sum(axis=1))
+    return np.sqrt(np.sum(np.power(board_sum - goal_sum, 2))/7)
 
 def O2(board_state):
     idc = [[-1, 0], [-1, 1], [0, 1], 

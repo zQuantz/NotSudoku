@@ -14,9 +14,9 @@ if __name__ == '__main__':
 	max_searches=15000
 
 	for func, func_str in zip([h.h1, h.h2, h.h3, 
-							   h.h1_mod, h.h2_mod, h.h4] ,
+							   h.h4][3:] ,
 							   ['h1', 'h2', 'h3', 
-							   'h1_mod', 'h2_mod', 'h4']):
+							    'h4'][3:]):
 
 		for i, state in enumerate(states):
 			print(i)
