@@ -141,12 +141,13 @@ class Search():
 				if(self.outfile != None):
 					self.save_solution(nodes)
 				break
-
+			'''
 			print(' - - - - - -  - - ')
 			print('Searches:', self.searches)
 			print('Depth:', current_position.depth)
 			print('Cost:', current_position.cost)
 			print('HTime:', len(self.heuristic_time))
+			'''
 			self.costs.append(current_position.cost)
 			self.depths.append(current_position.depth)
 
