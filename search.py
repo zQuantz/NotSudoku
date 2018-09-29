@@ -152,14 +152,13 @@ class Search():
 				if(self.outfile != None):
 					self.save_solution(nodes)
 				break
-<<<<<<< HEAD
-			if(verbose==0):
+
+			if(verbose==1):
 				print(' - - - - - -  - - ')
 				print('Searches:', self.searches)
 				print('Depth:', current_position.depth)
 				print('Cost:', current_position.cost)
 				print('HTime:', len(self.heuristic_time))
->>>>>>> ideep
 			
 			self.costs.append(current_position.cost)
 			self.depths.append(current_position.depth)
@@ -184,6 +183,7 @@ class BFS(Search):
 		self.max_depth = max_depth
 		self.max_depth_list = []
 		self.iter_deep = iter_deep
+		self.iter_deep_stats = []
 
 	def evaluate(self, current_position, func):
 		if(True if self.max_depth == None else current_position.depth < self.max_depth):
@@ -204,6 +204,9 @@ class BFS(Search):
 				return True, None
 			else:
 				print('DEEPENING - MAX DEPTH: %d - ADDING: %d' % (self.max_depth, self.iter_deep))
+
+				self.iter_deep_stats.append([len(self.max_depth_list), 
+											 self.max_depth, self.searches])
 				self.max_depth += self.iter_deep
 				self.open_list = self.max_depth_list
 				self.max_depth_list = []

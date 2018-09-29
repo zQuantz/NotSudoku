@@ -48,11 +48,12 @@ def generate_board_state(difficulty):
 
 if __name__ == '__main__':
 
-	parser = ArgumentParser(description='Script to generate solvable board states. The difficulties are 50, 100, 1000')
-	parser.add_argument('N', help='Number of states to generate. Must be greater than 100', type=int, default=100)
+	parser = ArgumentParser(description='Script to generate solvable board states. The difficulties are 5, 10, 15, 20, 25, 30')
+	parser.add_argument('N', help='Number of states to generate.', type=int, default=20)
 
 	args = parser.parse_args()
-	diffs = [5, 10, 15, 20, 25, 30]
+	#diffs = [5, 10, 15, 20, 25, 30]
+	diffs = [2, 3, 4, 5, 6, 8, 10, 12]
 	difficulties, states = [], []
 	start = time.time()
 
@@ -64,7 +65,7 @@ if __name__ == '__main__':
 		except Exception as e:
 			print(e)
 
-	np.save('Data/states.npy', states)
-	np.save('Data/diffs.npy', diffs)
+	np.save('Data/states_bfs.npy', states)
+	np.save('Data/diffs_bfs.npy', diffs)
 	print(time.time() - start)
 
