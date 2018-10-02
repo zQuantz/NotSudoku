@@ -17,7 +17,7 @@ if __name__ == '__main__':
 		for i, state in enumerate(states):
 			## BFS ##
 			bfs = BFS(max_searches=max_searches, iter_deep=2, max_depth=3)
-			bfs.traversal(state, func=None, verbose=1)
+			bfs.traversal(state, func=None, verbose=0)
 			df = pd.DataFrame(bfs.iter_deep_stats, columns = ['NumNodes', 'Depth', 'Searches'])
 			df['Time'] = [bfs.overall_time]*len(df)
 			df['Searches'] = [bfs.searches]*len(df)
