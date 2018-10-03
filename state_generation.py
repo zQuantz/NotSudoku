@@ -3,13 +3,16 @@ import pandas as pd
 from argparse import ArgumentParser
 import time
 
+size_one = 3
+size_two = 4
+
 def get_legal_moves(board_state, closed_list):
 
 	idc = [[1, -1], [1, 0], [1, 1], 
 	       [-1, 1], [-1, 0], [-1, -1], 
 	       [0, 1], [0, -1]]
 
-	board_state = board_state.reshape(3, 4)
+	board_state = board_state.reshape(size_one, size_two)
 	empty_index = np.argwhere(board_state == 0)[0]
 	legal_moves = []
 
@@ -33,8 +36,8 @@ def get_legal_moves(board_state, closed_list):
 
 def generate_board_state(difficulty):
 
-	current_state = np.append(np.arange(1, 12), 0)
-	closed_list = pd.DataFrame({'State' : [str([0]*12)]})
+	current_state = np.append(np.arange(1, size_one*size_two), 0)
+	closed_list = pd.DataFrame({'State' : [str([0]*(size_one*size_two))]})
 
 	for i in range(difficulty):
 

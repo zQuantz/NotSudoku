@@ -21,7 +21,7 @@ if __name__ == '__main__':
 	#bfs = BFS(np.array(puzzle), h.h1, max_depth=args.max_depth, outfile='Data/Results/puzzleDFS.txt')
 	#bfs.traversal()
 
-	for heur_str, func in zip(['h1', 'h2'], [h.h3, h.h2]):
+	for heur_str, func in zip(['h1', 'h2'], [h.h1, h.h2]):
 
 		bf = BestFirst(outfile='Data/Results/puzzleBFS-%s.txt' % heur_str)
 		bf.traversal(np.array(puzzle), func)

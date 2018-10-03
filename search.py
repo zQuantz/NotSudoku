@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import time
 
-### MOVES ###
+### HYPERPARAMS ###
 
 move_dict = {'[-1, -1]' : 'UP-LEFT', 
 			 '[-1, 0]' : 'UP', 
@@ -20,6 +20,9 @@ tile_dict = {0 : 'a', 1 : 'b',
 			 6 : 'g', 7 : 'h', 
 			 8 : 'i', 9 : 'j', 
 			 10 : 'k', 11 : 'l'}
+
+size_one = 3
+size_two = 4
 ###
 
 class Node():
@@ -33,13 +36,13 @@ class Node():
 		self.from_move = move_dict[str(from_move)]
 
 	def is_goal_state(self):
-		return np.array_equal(self.state, np.append(np.arange(1, 12), 0))
+		return np.array_equal(self.state, np.append(np.arange(1, size_one*size_two), 0))
 
 class Search():
 
 	def __init__(self, max_searches=15000, outfile=None):
 		self.open_list = []
-		self.closed_list = pd.DataFrame({'State' : [str([0]*12)]})
+		self.closed_list = pd.DataFrame({'State' : [str([0]*(size_one*size_two))]})
 		self.outfile = outfile
 		self.max_searches = max_searches
 		#Stats
@@ -66,7 +69,7 @@ class Search():
 		print()
 		for node in nodes:
 			print(node.from_move)
-			print(node.state.reshape(3, 4))
+			print(node.state.reshape(size_one, size_two))
 		print('\nGOAL STATE FOUND! CONGRATULATIONS\n')
 		return len(nodes), nodes
 
@@ -89,7 +92,7 @@ class Search():
 			   [1, 1], [1, 0], [1, -1], 
 			   [0, -1], [-1, -1]]
 
-		board_state = board_state.reshape(3, 4)
+		board_state = board_state.reshape(size_one, size_two)
 		empty_index = np.argwhere(board_state == 0)[0]
 		legal_moves = []
 		for idx in idc:
