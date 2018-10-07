@@ -33,7 +33,7 @@ class Node():
 		self.cost = cost
 		self.depth = depth
 		self.from_node = from_node
-		self.from_move = move_dict[str(from_move)]
+		self.from_move = move_dict[str(from_move)] if str(from_move) in move_dict else ''
 
 	def is_goal_state(self):
 		return np.array_equal(self.state, np.append(np.arange(1, size_one*size_two), 0))
@@ -91,6 +91,11 @@ class Search():
 		idc = [[-1, 0], [-1, 1], [0, 1], 
 			   [1, 1], [1, 0], [1, -1], 
 			   [0, -1], [-1, -1]]
+		idc_main = idc.copy()
+		idc_main += np.multiply(idc, 2).tolist()
+		idc_main += np.multiply(idc, 3).tolist()
+		idc_main += np.multiply(idc, 4).tolist()
+		idc = idc_main
 
 		board_state = board_state.reshape(size_one, size_two)
 		empty_index = np.argwhere(board_state == 0)[0]
@@ -109,7 +114,7 @@ class Search():
 						legal_moves.append([new_state.ravel(), idx])
 			except Exception as e:
 				pass
-			
+		
 		return legal_moves
 
 	def save_solution(self, nodes):
@@ -242,5 +247,4 @@ class BestFirst(Search):
 		costs = [node.cost for node in self.open_list]
 		idc = np.argsort(costs)
 		self.open_list = np.array(self.open_list)[idc].tolist()
-
 

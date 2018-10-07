@@ -47,7 +47,7 @@ def h4(board_state):
     board_state = board_state.reshape(size_one, size_two)
     goal_sum = np.append(goal_state.sum(axis=0), goal_state.sum(axis=1))
     board_sum = np.append(board_state.sum(axis=0), board_state.sum(axis=1))
-    return np.sqrt(np.sum(np.power(board_sum - goal_sum, 2))/(size_one+size_two))
+    return np.sqrt(np.sum(np.power(board_sum - goal_sum, 2)))
 
 def O2(board_state):
     idc = [[-1, 0], [-1, 1], [0, 1], 
