@@ -8,7 +8,7 @@ import heuristics as h
 
 if __name__ == '__main__':
 
-	if(True):
+	if(False):
 
 		states = np.load('Data/states_bfs.npy')
 		diffs = np.load('Data/diffs_bfs.npy')
@@ -31,10 +31,7 @@ if __name__ == '__main__':
 		diffs = np.load('Data/diffs.npy')
 		max_searches=15000
 
-		for func, func_str in zip([h.h1, h.h2, h.h3, 
-								   h.h4][3:] ,
-								   ['h1', 'h2', 'h3', 
-								    'h4'][3:]):
+		for func, func_str in zip([h.h1_mod], ['h1_mod']):
 
 			for i, state in enumerate(states):
 				print(i)
