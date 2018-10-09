@@ -7,7 +7,7 @@ def h1(board_state):
 	goal_state = np.append(np.arange(1, (size_one*size_two)), 0)
 	return 12 - np.where(goal_state == board_state)[0].shape[0]
 
-def h1_mod(board_state):
+def h2_mod(board_state):
     board_state = board_state.tolist()
     cost = [abs(board_state.index(i) - i + 1) for i in range(1, (size_one*size_two))]
     cost = cost + [abs(((size_one*size_two) - 1) - board_state.index(0))]
@@ -23,7 +23,7 @@ def h2(board_state):
         cost += sum(abs(idx_board - idx_goal))
     return cost
 
-def h2_mod(board_state):
+def h2_mod_max(board_state):
     board_state = board_state.reshape(size_one, size_two)
     goal_state = np.append(np.arange(1, (size_one*size_two)), 0).reshape(size_one, size_two)
     cost = 0
