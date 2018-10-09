@@ -22,7 +22,7 @@ tile_dict = {0 : 'a', 1 : 'b',
 			 10 : 'k', 11 : 'l'}
 
 size_one = 3
-size_two = 4
+size_two = 3
 ###
 
 class Node():
@@ -88,15 +88,14 @@ class Search():
 
 	def get_legal_moves(self, board_state):
 
+		
 		idc = [[-1, 0], [-1, 1], [0, 1], 
 			   [1, 1], [1, 0], [1, -1], 
 			   [0, -1], [-1, -1]]
-		idc_main = idc.copy()
-		idc_main += np.multiply(idc, 2).tolist()
-		idc_main += np.multiply(idc, 3).tolist()
-		idc_main += np.multiply(idc, 4).tolist()
-		idc = idc_main
-
+		'''
+		idc = [[-1, 0], [0, 1], 
+			   [1, 0], [0, -1]]
+		'''
 		board_state = board_state.reshape(size_one, size_two)
 		empty_index = np.argwhere(board_state == 0)[0]
 		legal_moves = []
@@ -130,7 +129,6 @@ class Search():
 				file.write('%s %s\n' % (tile_dict[idx], node.state))
 
 	def evaluate(self, current_position, func=None):
-
 		pass
 
 	def is_end(self, current_position):

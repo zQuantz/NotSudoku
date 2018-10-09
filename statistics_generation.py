@@ -27,11 +27,11 @@ if __name__ == '__main__':
 			##
 	else:
 
-		states = np.load('Data/states.npy')
+		states = np.load('Data/states_33.npy')
 		diffs = np.load('Data/diffs.npy')
 		max_searches=15000
 
-		for func, func_str in zip([h.h1_mod], ['h1_mod']):
+		for func, func_str in zip([h.h2, h.h3], ['h2_33', 'h3_33']):
 
 			for i, state in enumerate(states):
 				print(i)
