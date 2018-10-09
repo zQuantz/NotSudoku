@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 import time
 
 size_one = 3
-size_two = 4
+size_two = 3
 
 def get_legal_moves(board_state, closed_list):
 
@@ -55,8 +55,8 @@ if __name__ == '__main__':
 	parser.add_argument('N', help='Number of states to generate.', type=int, default=20)
 
 	args = parser.parse_args()
-	#diffs = [5, 10, 15, 20, 25, 30]
-	diffs = [2, 3, 4, 5, 6, 8, 10, 12]
+	diffs = [5, 10, 15, 20, 25, 30]
+	#diffs = [2, 3, 4, 5, 6, 8, 10, 12]
 	difficulties, states = [], []
 	start = time.time()
 
@@ -68,7 +68,7 @@ if __name__ == '__main__':
 		except Exception as e:
 			print(e)
 
-	np.save('Data/states_bfs.npy', states)
-	np.save('Data/diffs_bfs.npy', diffs)
+	np.save('Data/states_33.npy', states)
+	np.save('Data/diffs_33.npy', diffs)
 	print(time.time() - start)
 
