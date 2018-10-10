@@ -1,6 +1,6 @@
 import numpy as np
 size_one = 3
-size_two = 3
+size_two = 4
 ### HEURISTICS ### 
 
 def h1(board_state):

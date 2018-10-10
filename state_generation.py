@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 import time
 
 size_one = 3
-size_two = 3
+size_two = 4
 
 def get_legal_moves(board_state, closed_list):
 
