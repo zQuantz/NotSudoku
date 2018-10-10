@@ -22,7 +22,7 @@ tile_dict = {0 : 'a', 1 : 'b',
 			 10 : 'k', 11 : 'l'}
 
 size_one = 3
-size_two = 3
+size_two = 4
 ###
 
 class Node():
@@ -92,6 +92,11 @@ class Search():
 		idc = [[-1, 0], [-1, 1], [0, 1], 
 			   [1, 1], [1, 0], [1, -1], 
 			   [0, -1], [-1, -1]]
+		idc_main = idc.copy()
+		idc_main += (np.array(idc)*2).tolist()
+		idc_main += (np.array(idc)*3).tolist()
+		idc_main += (np.array(idc)*4).tolist()
+		idc = idc_main.copy()
 		'''
 		idc = [[-1, 0], [0, 1], 
 			   [1, 0], [0, -1]]
@@ -99,7 +104,7 @@ class Search():
 		board_state = board_state.reshape(size_one, size_two)
 		empty_index = np.argwhere(board_state == 0)[0]
 		legal_moves = []
-		for idx in idc:
+		for i, idx in enumerate(idc):
 			try:
 				pos = empty_index + idx
 				if(len([i for i in pos if i >= 0])==2):
@@ -113,7 +118,7 @@ class Search():
 						legal_moves.append([new_state.ravel(), idx])
 			except Exception as e:
 				pass
-		
+
 		return legal_moves
 
 	def save_solution(self, nodes):
