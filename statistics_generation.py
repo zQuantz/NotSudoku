@@ -16,14 +16,14 @@ if __name__ == '__main__':
 
 		for i, state in enumerate(states):
 			## BFS ##
-			bfs = BFS(max_searches=max_searches, iter_deep=2, max_depth=3)
-			bfs.traversal(state, func=None, verbose=0)
-			df = pd.DataFrame(bfs.iter_deep_stats, columns = ['NumNodes', 'Depth', 'Searches'])
-			df['Time'] = [bfs.overall_time]*len(df)
-			df['Searches'] = [bfs.searches]*len(df)
+			dfs = DFS(max_searches=max_searches, iter_deep=2, max_depth=3)
+			dfs.traversal(state, func=None, verbose=0)
+			df = pd.DataFrame(dfs.iter_deep_stats, columns = ['NumNodes', 'Depth', 'Searches'])
+			df['Time'] = [dfs.overall_time]*len(df)
+			df['Searches'] = [dfs.searches]*len(df)
 			df['Difficulty'] = [diffs[i % len(diffs)]]*len(df)
-			df['SolutionLength'] = [bfs.solution_path_length]*len(df)
-			df.to_pickle('Data/Stats/bfs/state_%d.pkl' % i)
+			df['SolutionLength'] = [dfs.solution_path_length]*len(df)
+			df.to_pickle('Data/Stats/dfs/state_%d.pkl' % i)
 			##
 	else:
 
