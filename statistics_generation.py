@@ -2,13 +2,13 @@ import numpy as np
 import pandas as pd
 import os, sys
 sys.path.append('search.py')
-from search import BFS, BestFirst, AStar
+from search import DFS, BestFirst, AStar
 sys.path.append('heuristics.py')
 import heuristics as h
 
 if __name__ == '__main__':
 
-	if(False):
+	if(True):
 
 		states = np.load('Data/states_bfs.npy')
 		diffs = np.load('Data/diffs_bfs.npy')
@@ -23,7 +23,7 @@ if __name__ == '__main__':
 			df['Searches'] = [dfs.searches]*len(df)
 			df['Difficulty'] = [diffs[i % len(diffs)]]*len(df)
 			df['SolutionLength'] = [dfs.solution_path_length]*len(df)
-			df.to_pickle('Data/Stats/dfs/state_%d.pkl' % i)
+			df.to_pickle('Data/Stats/bfs/state_%d.pkl' % i)
 			##
 	else:
 
