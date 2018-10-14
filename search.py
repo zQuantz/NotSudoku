@@ -92,15 +92,7 @@ class Search():
 		idc = [[-1, 0], [-1, 1], [0, 1], 
 			   [1, 1], [1, 0], [1, -1], 
 			   [0, -1], [-1, -1]]
-		idc_main = idc.copy()
-		idc_main += (np.array(idc)*2).tolist()
-		idc_main += (np.array(idc)*3).tolist()
-		idc_main += (np.array(idc)*4).tolist()
-		idc = idc_main.copy()
-		'''
-		idc = [[-1, 0], [0, 1], 
-			   [1, 0], [0, -1]]
-		'''
+
 		board_state = board_state.reshape(size_one, size_two)
 		empty_index = np.argwhere(board_state == 0)[0]
 		legal_moves = []
@@ -187,7 +179,7 @@ class Search():
 				self.overall_time = -2
 				break
 
-class BFS(Search):
+class DFS(Search):
 
 	def __init__(self, max_searches=15000, max_depth=None, outfile=None, iter_deep=None):
 		Search.__init__(self, max_searches=max_searches, outfile=outfile)
@@ -197,6 +189,9 @@ class BFS(Search):
 		self.iter_deep_stats = []
 
 	def evaluate(self, current_position, func):
+
+		self.closed_list = self.closed_list.append({'State' : str(list(current_position.state))}, 
+													   ignore_index=True)
 		if(True if self.max_depth == None else current_position.depth < self.max_depth):
 			children = self.build_children(current_position, func=None)
 			self.open_list = children + self.open_list
